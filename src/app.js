@@ -5,23 +5,24 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      cardInfo: [
-        {
-          id: 0,
-          question: ' ',
-          answer: ' '
-        }
-      ],
+      cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
       view: {
         path: '',
         params: ' '
       },
-      lastId: 0
+      lastId: JSON.parse(localStorage.getItem('lastId')) || 0
     }
     this.handleSave = this.handleSave.bind(this)
   }
   componentDidMount() {
-
+    window.addEventListener('beforeunload', () => {
+      const {cardInfo, lastId} = this.state
+      const newCardInfo = cardInfo.map((newCard) => {
+        return Object.assign({}, newCard)
+      })
+      localStorage.setItem('cardInfo', JSON.stringify(newCardInfo))
+      localStorage.setItem('lastId', JSON.stringify(lastId))
+    })
   }
 
   handleSave(e) {
