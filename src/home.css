@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
+.new-card {
+  margin-top: 18%;
+  margin-left: 30%;
+}
+
+#new-card-title {
+  margin-bottom: 2rem;
+  margin-left: 8%;
+}
