@@ -1,57 +1,53 @@
 import React, { Component } from 'react'
 import Home from './home'
+
 export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       cardInfo: [
         {
+          id: 0,
           question: ' ',
           answer: ' '
         }
       ],
-      // todos: JSON.parse(localStorage.getItem('todos')) || [],
-      // nextId: JSON.parse(localStorage.getItem('nextId')) || 1
       view: {
         path: '',
         params: ' '
-      }
+      },
+      lastId: 0
     }
-
+    this.handleSave = this.handleSave.bind(this)
   }
   componentDidMount() {
-    // window.addEventListener('beforeunload', () => {
-    //   const {todos, nextId} = this.state
-    //   const newTodos = todos.map((todo) => {
-    //     const newObj = Object.assign({}, todo)
-    //     console.log(newObj)
-    //     return newObj
-    //   })
-    //   localStorage.setItem('todos', JSON.stringify(newTodos))
-    //   localStorage.setItem('nextId', JSON.stringify(nextId))
-    // })
+
   }
-  // renderView() {
-  //   const { path, params } = this.state.view
-  //   if (!path.length)
-  //   // switch (path) {
-  //   //   // case 'about':
-  //   //   //   return <About/>
-  //   //   // case 'pokedex':
-  //   //   //   const { type } = params
-  //   //   //   const pokedex = type
-  //   //   //     ? this.props.pokedex.filter(pokemon => pokemon.type === type)
-  //   //   //     : this.props.pokedex
-  //   //   //   return <Pokedex pokedex={pokedex} type={type}/>
-  //   //   // default:
-  //     <Home/>
-  //   }
-  // }
 
+  handleSave(e) {
+    e.preventDefault()
+    const {cardInfo, lastId} = this.state
+    const newState = {
+      id: lastId + 1,
+      question: e.target[0].value,
+      answer: e.target[1].value
+    }
+    const copyInfo = cardInfo.map((newCard) => {
+      return Object.assign({}, newCard)
+    })
+    copyInfo.push(newState)
+    this.setState({
+      cardInfo: copyInfo,
+      lastId: lastId + 1
+    })
+    let $input = document.querySelectorAll('input')
+    for (let i = 0; i < $input.length; i++) {
+      $input[i].value = ''
+    }
+  }
   render() {
-
     return (
-      <Home />
+      <Home handleOnSubmit = {this.handleSave} />
     )
   }
 }
