@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import Home from './home'
+import FlashCardForm from './flashcardform'
 
 export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
-      view: {
-        path: '',
-        params: ' '
-      },
       lastId: JSON.parse(localStorage.getItem('lastId')) || 0
     }
     this.handleSave = this.handleSave.bind(this)
@@ -41,14 +37,14 @@ export default class App extends Component {
       cardInfo: copyInfo,
       lastId: lastId + 1
     })
-    let $input = document.querySelectorAll('input')
-    for (let i = 0; i < $input.length; i++) {
-      $input[i].value = ''
+    for (let i = 0; i < e.target.length; i++) {
+      e.target[i].value = ''
     }
   }
+
   render() {
     return (
-      <Home handleOnSubmit = {this.handleSave} />
+      <FlashCardForm handleOnSubmit = {this.handleSave} />
     )
   }
 }
