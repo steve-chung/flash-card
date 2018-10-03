@@ -1,12 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import FlashCardForm from './flashcardform'
+import hash from './hash'
+import NavBar from './navbar'
 
 export default class App extends Component {
   constructor(props) {
     super(props)
+    const link = window.location.hash
     this.state = {
       cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
-      lastId: JSON.parse(localStorage.getItem('lastId')) || 0
+      lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
+      view: {
+        path: hash.parse(link).path
+      }
     }
     this.handleSave = this.handleSave.bind(this)
   }
@@ -16,6 +22,27 @@ export default class App extends Component {
       localStorage.setItem('cardInfo', JSON.stringify(cardInfo))
       localStorage.setItem('lastId', JSON.stringify(lastId))
     })
+    window.addEventListener('hashchange', (e) => {
+      const hashInfo = hash.parse(e.target.location.hash)
+      this.setState({
+        view: {
+          path: hashInfo.path
+        }
+      })
+    })
+    window.dispatchEvent(new Event('hashchange'))
+  }
+
+  renderView() {
+    const { path } = this.state.view
+    switch (path) {
+      // case 'cards' :
+      //   return <Cards />
+      case 'new' :
+        return <FlashCardForm handleOnSubmit={this.handleSave}/>
+      default:
+        return <FlashCardForm />
+    }
   }
 
   handleSave(e) {
@@ -38,7 +65,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <FlashCardForm handleOnSubmit = {this.handleSave} />
+      <Fragment>
+        <NavBar />
+        { this.renderView() }
+        {/* <FlashCardForm handleOnSubmit = {this.handleSave} /> */}
+      </Fragment>
     )
   }
 }
