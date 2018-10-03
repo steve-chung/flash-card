@@ -13,10 +13,7 @@ export default class App extends Component {
   componentDidMount() {
     window.addEventListener('beforeunload', () => {
       const {cardInfo, lastId} = this.state
-      const newCardInfo = cardInfo.map((newCard) => {
-        return Object.assign({}, newCard)
-      })
-      localStorage.setItem('cardInfo', JSON.stringify(newCardInfo))
+      localStorage.setItem('cardInfo', JSON.stringify(cardInfo))
       localStorage.setItem('lastId', JSON.stringify(lastId))
     })
   }
@@ -29,14 +26,13 @@ export default class App extends Component {
       question: e.target[0].value,
       answer: e.target[1].value
     }
-    const copyInfo = cardInfo.map((newCard) => {
-      return Object.assign({}, newCard)
-    })
+    const copyInfo = cardInfo.slice()
     copyInfo.push(newState)
     this.setState({
       cardInfo: copyInfo,
       lastId: lastId + 1
     })
+    localStorage.clear()
     e.target.reset()
   }
 
