@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import FlashCardForm from './flashcardform'
 import hash from './hash'
 import NavBar from './navbar'
+import Cards from './cards'
 
 export default class App extends Component {
   constructor(props) {
@@ -35,9 +36,10 @@ export default class App extends Component {
 
   renderView() {
     const { path } = this.state.view
+    const { cardInfo } = this.state
     switch (path) {
-      // case 'cards' :
-      //   return <Cards />
+      case 'cards' :
+        return <Cards cards = {cardInfo}/>
       case 'new' :
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
       default:
