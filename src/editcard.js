@@ -5,7 +5,7 @@ const styles = {
 }
 const EditCard = (props) => {
 
-  const {question, answer} = props
+  const {question, answer} = props.card
 
   return (
     <div className='container d-flex flex-column my-auto  align-items-center new-card' style={styles} onSubmit={props.handleOnSubmit}>

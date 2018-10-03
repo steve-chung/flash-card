@@ -3,6 +3,7 @@ import FlashCardForm from './flashcardform'
 import hash from './hash'
 import NavBar from './navbar'
 import Cards from './cards'
+import EditCard from './editcard'
 
 export default class App extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ export default class App extends Component {
       cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
       lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
       view: {
-        path: hash.parse(link).path
+        path: hash.parse(link).path,
+        params: hash.parse(link).params
       }
     }
     this.handleSave = this.handleSave.bind(this)
@@ -27,7 +29,8 @@ export default class App extends Component {
       const hashInfo = hash.parse(e.target.location.hash)
       this.setState({
         view: {
-          path: hashInfo.path
+          path: hashInfo.path,
+          params: hashInfo.params
         }
       })
     })
@@ -35,13 +38,17 @@ export default class App extends Component {
   }
 
   renderView() {
-    const { path } = this.state.view
+    const { path, params } = this.state.view
     const { cardInfo, lastId } = this.state
     switch (path) {
       case 'cards' :
         return <Cards cards = {cardInfo} lastId={lastId} />
       case 'new' :
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
+      case 'edit':
+        const { id } = params
+        const selectedCard = id ? cardInfo.filter(card => card.id === id) : undefined
+        return <EditCard card={selectedCard} />
       default:
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
     }
@@ -66,7 +73,6 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <Fragment>
         <NavBar />
