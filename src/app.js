@@ -43,7 +43,7 @@ export default class App extends Component {
       case 'new' :
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
       default:
-        return <FlashCardForm />
+        return <FlashCardForm handleOnSubmit={this.handleSave}/>
     }
   }
 
@@ -70,7 +70,6 @@ export default class App extends Component {
       <Fragment>
         <NavBar />
         { this.renderView() }
-        {/* <FlashCardForm handleOnSubmit = {this.handleSave} /> */}
       </Fragment>
     )
   }
