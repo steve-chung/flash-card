@@ -37,9 +37,7 @@ export default class App extends Component {
       cardInfo: copyInfo,
       lastId: lastId + 1
     })
-    for (let i = 0; i < e.target.length; i++) {
-      e.target[i].value = ''
-    }
+    e.target.reset()
   }
 
   render() {
