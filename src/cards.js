@@ -3,18 +3,20 @@ import Card from './card'
 import NoCard from './noCard'
 
 export default class Cards extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
+
   render() {
     const { cards, lastId } = this.props
-    const cardList = cards.map((card) => (
-      <Card key={card.id} question={card.question} />
-    ))
+    const cardList = cards.map((card, i) => (
+      <div className='col-md-4 d-flex align-items-stretch'
+        key={card.id}>
+        <Card question={card.question} />
+      </div>))
 
     return (
-      <div>
-        { lastId ? (cardList) : (<NoCard/>) }
+      <div className='container'>
+        <div className='row'>
+          { lastId ? (cardList) : (<NoCard/>) }
+        </div>
       </div>
     )
 

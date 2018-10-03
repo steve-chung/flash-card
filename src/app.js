@@ -9,10 +9,8 @@ export default class App extends Component {
     super(props)
     const link = window.location.hash
     this.state = {
-      // cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
-      // lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
-      cardInfo: [],
-      lastId: 0,
+      cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
+      lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
       view: {
         path: hash.parse(link).path
       }
