@@ -9,8 +9,10 @@ export default class App extends Component {
     super(props)
     const link = window.location.hash
     this.state = {
-      cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
-      lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
+      // cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
+      // lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
+      cardInfo: [],
+      lastId: 0,
       view: {
         path: hash.parse(link).path
       }
@@ -36,10 +38,10 @@ export default class App extends Component {
 
   renderView() {
     const { path } = this.state.view
-    const { cardInfo } = this.state
+    const { cardInfo, lastId } = this.state
     switch (path) {
       case 'cards' :
-        return <Cards cards = {cardInfo}/>
+        return <Cards cards = {cardInfo} lastId={lastId} />
       case 'new' :
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
       default:
