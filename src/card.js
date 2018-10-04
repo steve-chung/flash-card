@@ -9,7 +9,8 @@ const Card = (props) => {
         <h5 className='text-center'>{question}</h5>
       </div>
       <div className='card-footer border-no bg-light' style={{'borderTop': 'none'}}>
-        <a className='fas fa-edit float-right' href={href}></a>
+        <a className='fas fa-edit float-right' style={{'color': 'black'}} href={href}></a>
+        <button className='fas fa-trash-alt float-right mr-3'></button>
       </div>
     </div>
 
