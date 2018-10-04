@@ -1,12 +1,19 @@
 import React from 'react'
 
-const Card = (props) => (
-  <div className='card bg-light mb-4' style={{'width': '18rem'}}>
-    <div className='card-body' >
-      <h5 className='text-center'>{props.question}</h5>
+const Card = (props) => {
+  const {question, cardId} = props
+  const href = cardId ? `#edit?id=${cardId}` : '#edit'
+  return (
+    <div className='card bg-light mb-4' style={{'width': '18rem'}}>
+      <div className='card-body' >
+        <h5 className='text-center'>{question}</h5>
+      </div>
+      <div className='card-footer border-no bg-light' style={{'borderTop': 'none'}}>
+        <a className='fas fa-edit float-right' href={href}></a>
+      </div>
     </div>
-  </div>
 
-)
+  )
+}
 
 export default Card

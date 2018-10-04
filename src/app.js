@@ -12,10 +12,12 @@ export default class App extends Component {
       cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
       lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
       view: {
-        path: hash.parse(link).path
+        path: hash.parse(link).path,
+        params: hash.parse(link).params
       }
     }
     this.handleSave = this.handleSave.bind(this)
+    this.cardEditSave = this.cardEditSave.bind(this)
   }
   componentDidMount() {
     window.addEventListener('beforeunload', () => {
@@ -27,23 +29,44 @@ export default class App extends Component {
       const hashInfo = hash.parse(e.target.location.hash)
       this.setState({
         view: {
-          path: hashInfo.path
+          path: hashInfo.path,
+          params: hashInfo.params
         }
       })
     })
     window.dispatchEvent(new Event('hashchange'))
   }
 
+  cardEditSave(id, question, answer) {
+    const { cardInfo } = this.state
+    const newState = {
+      id,
+      question,
+      answer
+    }
+    let copyInfo = cardInfo.slice()
+    let cardIndex = copyInfo.findIndex(card => card.id === id)
+    copyInfo.splice(cardIndex, 1, newState)
+    this.setState({
+      cardInfo: copyInfo
+    })
+    location.assign('#cards')
+  }
+
   renderView() {
-    const { path } = this.state.view
+    const { path, params } = this.state.view
     const { cardInfo, lastId } = this.state
     switch (path) {
       case 'cards' :
-        return <Cards cards = {cardInfo} lastId={lastId} />
+        return <Cards key={lastId} cards = {cardInfo} lastId={lastId} />
       case 'new' :
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
+      case 'edit':
+        const { id } = params
+        const selectedCard = cardInfo.find(card => card.id === parseInt(id, 10))
+        return <FlashCardForm edit cardId={id} card={selectedCard} cardEditSave = {this.cardEditSave}/>
       default:
-        return <FlashCardForm handleOnSubmit={this.handleSave}/>
+        return <Cards key={lastId} cards = {cardInfo} lastId={lastId} />
     }
   }
 
@@ -61,12 +84,10 @@ export default class App extends Component {
       cardInfo: copyInfo,
       lastId: lastId + 1
     })
-    localStorage.clear()
     e.target.reset()
   }
 
   render() {
-    console.log(this.state)
     return (
       <Fragment>
         <NavBar />
