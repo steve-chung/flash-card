@@ -11,8 +11,6 @@ export default class App extends Component {
     this.state = {
       cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
       lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
-      // cardInfo: [],
-      // lastId: 0,
       view: {
         path: hash.parse(link).path,
         params: hash.parse(link).params
@@ -47,19 +45,12 @@ export default class App extends Component {
       answer
     }
     let copyInfo = cardInfo.slice()
-    let cardIndex = 0
-    for (let i = 0; i < copyInfo.length; i++) {
-      if (copyInfo[i].id === parseInt(id, 10)) {
-        cardIndex = i
-        break
-      }
-    }
-    console.log(cardIndex)
+    let cardIndex = copyInfo.findIndex(card => card.id === id)
     copyInfo.splice(cardIndex, 1, newState)
     this.setState({
       cardInfo: copyInfo
     })
-    location.assign('http://localhost:3000/#cards')
+    location.assign('#cards')
   }
 
   renderView() {
@@ -72,8 +63,8 @@ export default class App extends Component {
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
       case 'edit':
         const { id } = params
-        const selectedCard = id ? cardInfo.filter(card => card.id === parseInt(id, 10)) : []
-        return <FlashCardForm edit cardId={id} card={selectedCard[0]} cardEditSave = {this.cardEditSave}/>
+        const selectedCard = cardInfo.find(card => card.id === parseInt(id, 10))
+        return <FlashCardForm edit cardId={id} card={selectedCard} cardEditSave = {this.cardEditSave}/>
       default:
         return <Cards key={lastId} cards = {cardInfo} lastId={lastId} />
     }
