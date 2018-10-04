@@ -9,7 +9,7 @@ export default class Cards extends Component {
     const cardList = cards.map((card, i) => (
       <div className='col-md-4 d-flex align-items-stretch'
         key={card.id}>
-        <Card question={card.question} />
+        <Card question={card.question} cardId={card.id} />
       </div>))
 
     return (

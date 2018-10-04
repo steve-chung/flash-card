@@ -37,6 +37,10 @@ export default class App extends Component {
     window.dispatchEvent(new Event('hashchange'))
   }
 
+  cardOnChange(e) {
+    console.log(e)
+  }
+
   renderView() {
     const { path, params } = this.state.view
     const { cardInfo, lastId } = this.state
@@ -47,10 +51,10 @@ export default class App extends Component {
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
       case 'edit':
         const { id } = params
-        const selectedCard = id ? cardInfo.filter(card => card.id === id) : undefined
-        return <EditCard card={selectedCard} />
+        const selectedCard = id ? cardInfo.filter(card => card.id === parseInt(id, 10)) : undefined
+        return <EditCard card={selectedCard[0]} cardOnChange = {this.cardOnChange}/>
       default:
-        return <FlashCardForm handleOnSubmit={this.handleSave}/>
+        return <Cards cards = {cardInfo} lastId={lastId} />
     }
   }
 
