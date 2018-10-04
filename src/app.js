@@ -18,6 +18,7 @@ export default class App extends Component {
     }
     this.handleSave = this.handleSave.bind(this)
     this.cardEditSave = this.cardEditSave.bind(this)
+    this.handleOnDelete = this.handleOnDelete.bind(this)
   }
   componentDidMount() {
     window.addEventListener('beforeunload', () => {
@@ -53,12 +54,22 @@ export default class App extends Component {
     location.assign('#cards')
   }
 
+  handleOnDelete(id) {
+    const { cardInfo } = this.state
+    let copyInfo = cardInfo.slice()
+    let cardIndex = copyInfo.findIndex(card => card.id === id)
+    copyInfo.splice(cardIndex, 1)
+    this.setState({
+      cardInfo: copyInfo
+    })
+  }
+
   renderView() {
     const { path, params } = this.state.view
     const { cardInfo, lastId } = this.state
     switch (path) {
       case 'cards' :
-        return <Cards key={lastId} cards = {cardInfo} lastId={lastId} />
+        return <Cards key={lastId} cards = {cardInfo} lastId={lastId} handleOnDelete = {this.handleOnDelete}/>
       case 'new' :
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
       case 'edit':
@@ -66,7 +77,7 @@ export default class App extends Component {
         const selectedCard = cardInfo.find(card => card.id === parseInt(id, 10))
         return <FlashCardForm edit cardId={id} card={selectedCard} cardEditSave = {this.cardEditSave}/>
       default:
-        return <Cards key={lastId} cards = {cardInfo} lastId={lastId} />
+        return <Cards key={lastId} cards = {cardInfo} lastId={lastId} handleOnDelete = {this.handleOnDelete} />
     }
   }
 

@@ -9,7 +9,6 @@ export default class Cards extends Component {
   }
 
   handleOnClick(id) {
-    console.log(id)
     this.props.handleOnDelete(id)
   }
   render() {
@@ -23,9 +22,8 @@ export default class Cards extends Component {
     return (
       <div className='container'>
         <div className='row'>
-          <div className='card-group'>
-            { lastId ? (cardList) : (<NoCard/>) }
-          </div>
+
+          { lastId ? (cardList) : (<NoCard/>) }
         </div>
       </div>
     )
