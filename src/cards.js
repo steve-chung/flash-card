@@ -6,7 +6,7 @@ export default class Cards extends Component {
 
   render() {
     const { cards, lastId } = this.props
-    const cardList = cards.map((card, i) => (
+    const cardList = cards.map((card) => (
       <div className='col-md-4 d-flex align-items-stretch'
         key={card.id}>
         <Card question={card.question} cardId={card.id} />
@@ -15,7 +15,9 @@ export default class Cards extends Component {
     return (
       <div className='container'>
         <div className='row'>
-          { lastId ? (cardList) : (<NoCard/>) }
+          <div className='card-group'>
+            { lastId ? (cardList) : (<NoCard/>) }
+          </div>
         </div>
       </div>
     )

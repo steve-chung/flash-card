@@ -3,7 +3,6 @@ import FlashCardForm from './flashcardform'
 import hash from './hash'
 import NavBar from './navbar'
 import Cards from './cards'
-import EditCard from './editcard'
 
 export default class App extends Component {
   constructor(props) {
@@ -12,12 +11,15 @@ export default class App extends Component {
     this.state = {
       cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
       lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
+      // cardInfo: [],
+      // lastId: 0,
       view: {
         path: hash.parse(link).path,
         params: hash.parse(link).params
       }
     }
     this.handleSave = this.handleSave.bind(this)
+    this.cardEditSave = this.cardEditSave.bind(this)
   }
   componentDidMount() {
     window.addEventListener('beforeunload', () => {
@@ -37,8 +39,27 @@ export default class App extends Component {
     window.dispatchEvent(new Event('hashchange'))
   }
 
-  cardOnChange(e) {
-    console.log(e)
+  cardEditSave(id, question, answer) {
+    const { cardInfo } = this.state
+    const newState = {
+      id,
+      question,
+      answer
+    }
+    let copyInfo = cardInfo.slice()
+    let cardIndex = 0
+    for (let i = 0; i < copyInfo.length; i++) {
+      if (copyInfo[i].id === parseInt(id, 10)) {
+        cardIndex = i
+        break
+      }
+    }
+    console.log(cardIndex)
+    copyInfo.splice(cardIndex, 1, newState)
+    this.setState({
+      cardInfo: copyInfo
+    })
+    location.assign('http://localhost:3000/#cards')
   }
 
   renderView() {
@@ -46,15 +67,15 @@ export default class App extends Component {
     const { cardInfo, lastId } = this.state
     switch (path) {
       case 'cards' :
-        return <Cards cards = {cardInfo} lastId={lastId} />
+        return <Cards key={lastId} cards = {cardInfo} lastId={lastId} />
       case 'new' :
         return <FlashCardForm handleOnSubmit={this.handleSave}/>
       case 'edit':
         const { id } = params
-        const selectedCard = id ? cardInfo.filter(card => card.id === parseInt(id, 10)) : undefined
-        return <EditCard card={selectedCard[0]} cardOnChange = {this.cardOnChange}/>
+        const selectedCard = id ? cardInfo.filter(card => card.id === parseInt(id, 10)) : []
+        return <FlashCardForm edit cardId={id} card={selectedCard[0]} cardEditSave = {this.cardEditSave}/>
       default:
-        return <Cards cards = {cardInfo} lastId={lastId} />
+        return <Cards key={lastId} cards = {cardInfo} lastId={lastId} />
     }
   }
 
@@ -72,7 +93,6 @@ export default class App extends Component {
       cardInfo: copyInfo,
       lastId: lastId + 1
     })
-    localStorage.clear()
     e.target.reset()
   }
 

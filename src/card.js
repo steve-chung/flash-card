@@ -7,7 +7,9 @@ const Card = (props) => {
     <div className='card bg-light mb-4' style={{'width': '18rem'}}>
       <div className='card-body' >
         <h5 className='text-center'>{question}</h5>
-        <a className='btn btn-primary' href={href}>edit</a>
+      </div>
+      <div className='card-footer border-no bg-light' style={{'borderTop': 'none'}}>
+        <a className='fas fa-edit float-right' href={href}></a>
       </div>
     </div>
 
