@@ -12,25 +12,28 @@
 .card-slide {
   margin: 0;
   top: 4rem;
+  height: 100%;
+  width: 100%;
+  left: 0;
 }
 
 .card-container {
   top: 20%;
 }
 
-.card-slide .slide-card {
-  height: 100%;
+.slide-card {
   width: 100%;
+  white-space: normal;
 }
 
 .right {
   left: 90%;
-  top: 50%;
+  top: 20rem;
 }
 
 .left {
   left: 10%;
-  top: 50%;
+  top: 20rem;
 }
 
 .right .left {
@@ -39,6 +42,10 @@
 
 .question {
   margin-bottom: 3rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  font-size: 2rem;
 }
 
 .answer {
