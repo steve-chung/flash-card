@@ -1,0 +1,48 @@
+
+.practice {
+  margin: 0;
+  width: 60%;
+  top: 100%;
+  height: 100vh;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.card-slide {
+  margin: 0;
+  top: 4rem;
+}
+
+.card-container {
+  top: 20%;
+}
+
+.card-slide .slide-card {
+  height: 100%;
+  width: 100%;
+}
+
+.right {
+  left: 90%;
+  top: 50%;
+}
+
+.left {
+  left: 10%;
+  top: 50%;
+}
+
+.right .left {
+  font-size: 3rem;
+}
+
+.question {
+  margin-bottom: 3rem;
+}
+
+.answer {
+  margin: 0;
+  line-height: 3rem;
+  height: 3rem;
+}

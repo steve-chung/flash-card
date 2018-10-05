@@ -3,6 +3,7 @@ import FlashCardForm from './flashcardform'
 import hash from './hash'
 import NavBar from './navbar'
 import Cards from './cards'
+import Practice from './practice'
 
 export default class App extends Component {
   constructor(props) {
@@ -76,6 +77,8 @@ export default class App extends Component {
         const { id } = params
         const selectedCard = cardInfo.find(card => card.id === parseInt(id, 10))
         return <FlashCardForm edit cardId={id} card={selectedCard} cardEditSave = {this.cardEditSave}/>
+      case 'practice':
+        return <Practice cards = {cardInfo} />
       default:
         return <Cards key={lastId} cards = {cardInfo} lastId={lastId} handleOnDelete = {this.handleOnDelete} />
     }
