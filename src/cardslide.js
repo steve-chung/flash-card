@@ -20,6 +20,10 @@ export default class CardSlide extends Component {
               'transform': `translateX(${translateValue}px)`,
               'transition': 'transform 1s ease-out'}}>
             {cards}
+            <div className='progress' style={{height: '1rem'}}>
+              <div className='progress-bar'>
+              </div>
+            </div>
           </div>
         </div>
         <div><i className="fas fa-chevron-circle-right right position-absolute" onClick={() => this.handleClick('right')}></i></div>
