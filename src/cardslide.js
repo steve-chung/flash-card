@@ -15,6 +15,7 @@ const style = {
   }
 }
 
+
 export default class CardSlide extends Component {
   constructor(props) {
     super(props)
@@ -35,7 +36,6 @@ export default class CardSlide extends Component {
     this.props.onClick(direction)
     this.setState({
       showAnswer: false
-    })
   }
 
   render() {
@@ -56,6 +56,7 @@ export default class CardSlide extends Component {
           </div>
           <div className="progress" style={style.progress}>
             <div className="progress-bar" role="progressbar" style={{width: `${progressWidth}%`}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{progressWidth}%</div>
+
           </div>
         </div>
         <div><i className="fas fa-chevron-circle-right right position-absolute" onClick={() => this.handleClick('right')}></i></div>
