@@ -40,7 +40,7 @@ export default class Practice extends Component {
     const {page} = this.state
     const {cards} = this.props
     return (
-      <CardSlide cardInfo={cards[page]} onClick={this.handleChangePage} />
+      <CardSlide page={page} cardInfo={cards[page]} onClick={this.handleChangePage} cardCount={cards.length}/>
     )
   }
 
