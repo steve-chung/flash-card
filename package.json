@@ -52,6 +52,7 @@
     "stylelint-config-standard": "18.2.0"
   },
   "dependencies": {
+    "dot-prop-immutable": "^1.4.0",
     "react": "16.5.2",
     "react-dom": "16.5.2"
   }
