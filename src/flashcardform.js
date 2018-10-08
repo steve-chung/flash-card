@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { addCard } from './store/action/cardInfo'
+import { setLastId } from './store/action/lastId'
 
-export default class FlashCardForm extends Component {
+class FlashCardForm extends Component {
   constructor(props) {
     super(props)
     this.handleOnSubmit = this.handleOnSubmit.bind(this)
@@ -8,9 +11,13 @@ export default class FlashCardForm extends Component {
 
   handleOnSubmit(e) {
     e.preventDefault()
+    const { lastId } = this.props
     const question = e.target[0].value
     const answer = e.target[1].value
-    this.props.cardEditSave(this.props.card.id, question, answer)
+    console.log(this.props)
+    console.log(typeof this.props.cardInfo)
+    this.props.addCard(lastId, question, answer)
+    e.target.reset()
   }
   render() {
     const styles = {
@@ -19,7 +26,7 @@ export default class FlashCardForm extends Component {
     const { edit } = this.props
 
     return (
-      <div className='container d-flex flex-column my-auto  align-items-center new-card' style={styles} onSubmit={edit ? this.handleOnSubmit : this.props.handleOnSubmit}>
+      <div className='container d-flex flex-column my-auto  align-items-center new-card' style={styles} onSubmit={this.handleOnSubmit}>
         <form className='w-50 my-auto'>
           <h1 id='new-card-title' className='mb-5 text-center'>{ edit ? 'Edit a Flash Card' : 'Create a Flash Card'}</h1>
           <div className='form-group mt-5'>
@@ -39,3 +46,12 @@ export default class FlashCardForm extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    cardInfo: state.cardInfo,
+    lastId: state.lastId
+  }
+}
+
+export default connect(mapStateToProps, { addCard, setLastId })(FlashCardForm)

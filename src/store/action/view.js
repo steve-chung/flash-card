@@ -1,9 +1,7 @@
 import {SET_VIEW} from '../actionTypes'
 
-export function setView(path, params) {
+export function setView() {
   return {
-    type: SET_VIEW,
-    path,
-    params
+    type: SET_VIEW
   }
 }

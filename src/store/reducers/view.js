@@ -6,12 +6,16 @@ const DEFAULT_STATE = {
   params: hash.parse(link).params
 }
 
-export default (state = DEFAULT_STATE, action) => {
+const view = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case SET_VIEW:
       return {
-        path: action.path,
-        params: action.params
+        path: hash.parse(link).path,
+        params: hash.parse(link).params
       }
+    default:
+      return state
   }
 }
+
+export default view
