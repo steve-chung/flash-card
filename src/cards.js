@@ -1,19 +1,29 @@
 import React, { Component } from 'react'
 import Card from './card'
+import { connect } from 'react-redux'
 import NoCard from './noCard'
+import { deleteCard, cardEditClicked } from './store/action/cardInfo'
 
-export default class Cards extends Component {
+class Cards extends Component {
   constructor(props) {
     super(props)
     this.handleOnClick = this.handleOnClick.bind(this)
   }
 
-  handleOnClick(id) {
-    this.props.handleOnDelete(id)
+  handleOnClick(e, id) {
+    const {name} = e.target
+    if (name === 'delete') {
+      this.props.deleteCard(id)
+      return null
+    }
+    if (name === 'edit') {
+      console.log('edit')
+      this.props.cardEditClicked(id, true)
+    }
   }
   render() {
-    const { cards, lastId } = this.props
-    const cardList = cards.map((card) => (
+    const { cardInfo, lastId } = this.props
+    const cardList = cardInfo.map((card) => (
       <div className='col-md-4 d-flex align-items-stretch'
         key={card.id}>
         <Card question={card.question} cardId={card.id} onClick={this.handleOnClick}/>
@@ -30,3 +40,12 @@ export default class Cards extends Component {
 
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    cardInfo: state.cardInfo.cardInfo,
+    lastId: state.lastId.lastId
+  }
+}
+
+export default connect(mapStateToProps, {deleteCard, cardEditClicked})(Cards)

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 
 const style = {
   arrow: {
@@ -15,8 +16,7 @@ const style = {
   }
 }
 
-
-export default class CardSlide extends Component {
+class CardSlide extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -36,11 +36,13 @@ export default class CardSlide extends Component {
     this.props.onClick(direction)
     this.setState({
       showAnswer: false
+    })
   }
 
   render() {
-    const {question, answer} = this.props.cardInfo
-    const {cardCount, page} = this.props
+    const {page} = this.props
+    const {question, answer} = this.props.cardInfo[page]
+    const cardCount = this.props.cardInfo.length
     const {showAnswer} = this.state
     const progressWidth = ((page + 1) === cardCount) ? 100 : parseInt((100 / cardCount), 10) * (page + 1)
 
@@ -66,3 +68,11 @@ export default class CardSlide extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    cardInfo: state.cardInfo.cardInfo
+  }
+}
+
+export default connect(mapStateToProps, null)(CardSlide)
