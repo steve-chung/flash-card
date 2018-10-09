@@ -1,5 +1,6 @@
 export const SET_CARDINFO = 'SET_CARD_INFO'
 export const DEL_CARDINFO = 'DEL_CARD_INFO'
 export const UPDATE_CARDINFO = 'UPDATE_CARDINFO'
+export const EDIT_CARDINFO = 'EDIT_CARDINFO'
 export const SET_LASTID = 'SET_LASTID'
 export const SET_VIEW = 'SET_VIEW'

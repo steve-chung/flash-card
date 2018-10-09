@@ -3,31 +3,27 @@ import FlashCardForm from './flashcardform'
 import hash from './hash'
 import NavBar from './navbar'
 import Cards from './cards'
-// import Practice from './practice'
-// import { connect } from 'react-redux'
+import Practice from './practice'
+import { connect } from 'react-redux'
 
 class App extends Component {
   constructor(props) {
     super(props)
     const link = window.location.hash
     this.state = {
-      // cardInfo: JSON.parse(localStorage.getItem('cardInfo')) || [],
-      // lastId: JSON.parse(localStorage.getItem('lastId')) || 0,
       view: {
         path: hash.parse(link).path,
         params: hash.parse(link).params
       }
     }
-    // this.handleSave = this.handleSave.bind(this)
-    // this.cardEditSave = this.cardEditSave.bind(this)
-    // this.handleOnDelete = this.handleOnDelete.bind(this)
+    this.cardEditSave = this.cardEditSave.bind(this)
   }
   componentDidMount() {
-    // window.addEventListener('beforeunload', () => {
-    //   const {cardInfo, lastId} = this.state
-    //   localStorage.setItem('cardInfo', JSON.stringify(cardInfo))
-    //   localStorage.setItem('lastId', JSON.stringify(lastId))
-    // })
+    window.addEventListener('beforeunload', () => {
+      const {cardInfo, lastId} = this.props
+      localStorage.setItem('cardInfo', JSON.stringify(cardInfo))
+      localStorage.setItem('lastId', JSON.stringify(lastId))
+    })
     window.addEventListener('hashchange', (e) => {
       const hashInfo = hash.parse(e.target.location.hash)
       this.setState({
@@ -40,31 +36,15 @@ class App extends Component {
     window.dispatchEvent(new Event('hashchange'))
   }
 
-  // cardEditSave(id, question, answer) {
-  //   const { cardInfo } = this.state
-  //   const newState = {
-  //     id,
-  //     question,
-  //     answer
-  //   }
-  //   let copyInfo = cardInfo.slice()
-  //   let cardIndex = copyInfo.findIndex(card => card.id === id)
-  //   copyInfo.splice(cardIndex, 1, newState)
-  //   this.setState({
-  //     cardInfo: copyInfo
-  //   })
-  //   location.assign('#cards')
-  // }
-
-  // handleOnDelete(id) {
-  //   const { cardInfo } = this.state
-  //   let copyInfo = cardInfo.slice()
-  //   let cardIndex = copyInfo.findIndex(card => card.id === id)
-  //   copyInfo.splice(cardIndex, 1)
-  //   this.setState({
-  //     cardInfo: copyInfo
-  //   })
-  // }
+  cardEditSave() {
+    console.log('passed')
+    location.assign('#cards')
+    this.setState({
+      view: {
+        path: 'cards'
+      }
+    })
+  }
 
   renderView() {
     const { path } = this.state.view
@@ -74,40 +54,28 @@ class App extends Component {
       case 'new' :
         return <FlashCardForm/>
       case 'edit':
-        return <FlashCardForm edit />
-      // case 'practice':
-      //   return <Practice />
+        return <FlashCardForm edit cardEditSave={this.cardEditSave}/>
+      case 'practice':
+        return <Practice />
       default:
         return <Cards />
     }
   }
-
-  // handleSave(e) {
-  //   e.preventDefault()
-  //   const {cardInfo, lastId} = this.state
-  //   const newState = {
-  //     id: lastId + 1,
-  //     question: e.target[0].value,
-  //     answer: e.target[1].value
-  //   }
-  //   const copyInfo = cardInfo.slice()
-  //   copyInfo.push(newState)
-  //   this.setState({
-  //     cardInfo: copyInfo,
-  //     lastId: lastId + 1
-  //   })
-  //   e.target.reset()
-  // }
 
   render() {
     return (
       <Fragment>
         <NavBar />
         { this.renderView() }
-        {/* < FlashCardForm/> */}
       </Fragment>
     )
   }
 }
-export default App
-// export default connect(mapStateToProps, null)(App)
+
+function mapStateToProps(state) {
+  return {
+    cardInfo: state.cardInfo.cardInfo,
+    lastId: state.lastId.lastId
+  }
+}
+export default connect(mapStateToProps, null)(App)

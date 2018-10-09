@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import CardSlide from './cardslide'
+import { connect } from 'react-redux'
 
-export default class Practice extends Component {
+class Practice extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -12,8 +13,8 @@ export default class Practice extends Component {
 
   handleChangePage(direction) {
     let {page} = this.state
-    const {cards} = this.props
-    const cardLength = cards.length
+    const {cardInfo} = this.props.cardInfo
+    const cardLength = cardInfo.length
     switch (direction) {
       case 'left':
         if (page > 0) {
@@ -38,10 +39,17 @@ export default class Practice extends Component {
   }
   render() {
     const {page} = this.state
-    const {cards} = this.props
     return (
-      <CardSlide page={page} cardInfo={cards[page]} onClick={this.handleChangePage} cardCount={cards.length}/>
+      <CardSlide page={page} onClick={this.handleChangePage} />
     )
   }
 
 }
+
+function mapStateToProps(state) {
+  return {
+    cardInfo: state.cardInfo
+  }
+}
+
+export default connect(mapStateToProps, null)(Practice)

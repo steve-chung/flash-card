@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addCard } from './store/action/cardInfo'
+import { addCard, updateCard } from './store/action/cardInfo'
 import { setLastId } from './store/action/lastId'
 
 class FlashCardForm extends Component {
@@ -9,35 +9,42 @@ class FlashCardForm extends Component {
     this.handleOnSubmit = this.handleOnSubmit.bind(this)
   }
 
-  handleOnSubmit(e) {
+  handleOnSubmit(e, id) {
     e.preventDefault()
-    const { lastId } = this.props
+    const { lastId, edit } = this.props
     const question = e.target[0].value
     const answer = e.target[1].value
-    console.log(this.props)
-    console.log(typeof this.props.cardInfo)
-    this.props.addCard(lastId, question, answer)
+    if (!edit) {
+      this.props.addCard(lastId, question, answer)
+      this.props.setLastId(lastId)
+    }
+    else {
+      this.props.updateCard(id, question, answer)
+      this.props.cardEditSave()
+      // window.location.assign('#cards')
+    }
+
     e.target.reset()
   }
   render() {
     const styles = {
       'height': '100vh'
     }
-    const { edit } = this.props
-
+    const { edit, cardInfo } = this.props
+    const card = cardInfo && cardInfo.cardInfo.find((card) => card.clicked === true)
     return (
-      <div className='container d-flex flex-column my-auto  align-items-center new-card' style={styles} onSubmit={this.handleOnSubmit}>
+      <div className='container d-flex flex-column my-auto  align-items-center new-card' style={styles} onSubmit={card ? (e) => this.handleOnSubmit(e, card.id) : (e) => this.handleOnSubmit(e)}>
         <form className='w-50 my-auto'>
           <h1 id='new-card-title' className='mb-5 text-center'>{ edit ? 'Edit a Flash Card' : 'Create a Flash Card'}</h1>
           <div className='form-group mt-5'>
             <label htmlFor='question'>Question </label>
-            { edit ? <input type='text' className='form-control' name='question' defaultValue={this.props.card.question} id='question' placeholder='Question' required/>
+            { edit ? <input type='text' className='form-control' name='question' defaultValue={card.question} id='question' placeholder='Question' required/>
               : <input type='text' className='form-control' name='question' id='question' placeholder='Question' required/>}
 
           </div>
           <div className='form-group'>
             <label htmlFor='answer' >Answer </label>
-            { edit ? <input type='text' className='form-control' name='answer' defaultValue={this.props.card.answer} id='answer' placeholder='Answer' required/>
+            { edit ? <input type='text' className='form-control' name='answer' defaultValue={card.answer} id='answer' placeholder='Answer' required/>
               : <input type='text' className='form-control' name='answer' id='answer' placeholder='Answer' required/>}
           </div>
           <button type='submit' className='btn btn-primary' href='#cards'>Save</button>
@@ -54,4 +61,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { addCard, setLastId })(FlashCardForm)
+export default connect(mapStateToProps, { addCard, setLastId, updateCard })(FlashCardForm)

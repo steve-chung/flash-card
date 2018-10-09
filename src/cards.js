@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Card from './card'
 import { connect } from 'react-redux'
 import NoCard from './noCard'
-import { deleteCard } from './store/action/cardInfo'
+import { deleteCard, cardEditClicked } from './store/action/cardInfo'
 
 class Cards extends Component {
   constructor(props) {
@@ -10,8 +10,16 @@ class Cards extends Component {
     this.handleOnClick = this.handleOnClick.bind(this)
   }
 
-  handleOnClick(id) {
-    this.props.deleteCard(id)
+  handleOnClick(e, id) {
+    const {name} = e.target
+    if (name === 'delete') {
+      this.props.deleteCard(id)
+      return null
+    }
+    if (name === 'edit') {
+      console.log('edit')
+      this.props.cardEditClicked(id, true)
+    }
   }
   render() {
     const { cardInfo, lastId } = this.props
@@ -40,4 +48,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, {deleteCard})(Cards)
+export default connect(mapStateToProps, {deleteCard, cardEditClicked})(Cards)
