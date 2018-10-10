@@ -23,20 +23,37 @@
 .slide-card {
   width: 100%;
   white-space: normal;
+  box-shadow: 0 8px 6px -6px black;
+  background-color: #e0e0e0;
+}
+
+.card-form {
+  box-shadow: 0 8px 6px -6px black;
+}
+
+.right,
+.left {
+  font-size: 2rem;
+  top: 18rem;
+}
+
+.left {
+  left: 8%;
 }
 
 .right {
   left: 90%;
-  top: 20rem;
 }
 
-.left {
-  left: 10%;
-  top: 20rem;
+.arrow {
+  margin: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.right .left {
-  font-size: 3rem;
+.question,
+.answer,
+.arrow {
+  color: #48396b;
 }
 
 .question {
@@ -48,7 +65,22 @@
 }
 
 .answer {
+  overflow-y: scroll;
   margin: 0;
   line-height: 3rem;
-  height: 3rem;
+  font-size: 1.3rem;
+  white-space: pre-wrap;
+  background-color: #0c6aff;
+}
+
+.seeAnswer {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 0.8rem;
+}
+
+textarea {
+  height: 100px;
+  width: auto;
 }

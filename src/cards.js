@@ -22,7 +22,8 @@ class Cards extends Component {
     }
   }
   render() {
-    const { cardInfo, lastId } = this.props
+    const { cardInfo } = this.props
+    const emptyCard = cardInfo.length
     const cardList = cardInfo.map((card) => (
       <div className='col-md-4 d-flex align-items-stretch'
         key={card.id}>
@@ -33,7 +34,7 @@ class Cards extends Component {
       <div className='container'>
         <div className='row'>
 
-          { lastId ? (cardList) : (<NoCard/>) }
+          { emptyCard ? (cardList) : (<NoCard/>) }
         </div>
       </div>
     )

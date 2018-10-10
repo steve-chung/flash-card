@@ -7,13 +7,10 @@ const style = {
     transform: 'rotate(90deg)',
     transition: 'transform 1s ease-out'
   },
-  answer: {
-    transform: 'scale(1, 1)',
-    transition: 'transform 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55)'
-  },
   progress: {
     height: '1.5rem'
   }
+
 }
 
 class CardSlide extends Component {
@@ -45,15 +42,24 @@ class CardSlide extends Component {
     const cardCount = this.props.cardInfo.length
     const {showAnswer} = this.state
     const progressWidth = ((page + 1) === cardCount) ? 100 : parseInt((100 / cardCount), 10) * (page + 1)
+    const answerClass = 'text-center d-block answer text-white align-middle card card-body rounded-bottom'
 
     return (
-      <div className='card-container'>
-        <div className='container practice position-relative mx-auto'>
+      <div className='card-container d-flex'>
+        <div className='container practice position-relative mx-auto justify-content-center'>
           <div className='card-slide position-absolute'>
-            <div className='d-inline-block slide-card border border-secondary'>
+            <div className='d-inline-block slide-card rounded'>
               <p className='text-center question p-3'>Q: {question}</p>
-              <i className="fas fa-arrow-circle-right" style={showAnswer ? style.arrow : {fontSize: '2rem'}} onClick={this.toggleShowAnswer}></i><span> See Answer</span>
-              <h4 className='text-center bg-danger answer text-white align-middle' style={showAnswer ? style.answer : {transform: 'scale(1, 0)'} }>A: {answer}</h4>
+              <i className="fas fa-arrow-circle-right arrow"
+                style={showAnswer ? style.arrow : {fontSize: '2rem'}}
+                onClick={this.toggleShowAnswer}>
+              </i>
+              <span className='seeAnswer'> See Answer</span>
+              <div className = {showAnswer ? 'd-block' : 'd-none'} style={{height: '50%'}}>
+                <p className={answerClass}>
+                  <span className='d-inline-block float-left'>Answer: </span> {answer}
+                </p>
+              </div>
             </div>
           </div>
           <div className="progress" style={style.progress}>
