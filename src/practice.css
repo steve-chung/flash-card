@@ -51,9 +51,10 @@
 }
 
 .question,
-.answer,
+.fold,
 .arrow {
-  color: #48396b;
+  color: white;
+  text-shadow: 2px 2px 4px #000;
 }
 
 .question {
@@ -65,12 +66,23 @@
 }
 
 .answer {
-  overflow-y: scroll;
+  height: 100%;
   margin: 0;
   line-height: 3rem;
   font-size: 1.3rem;
   white-space: pre-wrap;
   background-color: #0c6aff;
+}
+
+.fold.hide {
+  max-height: 0;
+  transition: all 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.fold {
+  overflow-y: scroll;
+  max-height: 250px;
+  transition: all 0.9s cubic-bezier(0, 1, 0.5, 1);
 }
 
 .seeAnswer {

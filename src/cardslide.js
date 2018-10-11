@@ -3,9 +3,17 @@ import { connect } from 'react-redux'
 
 const style = {
   arrow: {
-    fontSize: '2rem',
-    transform: 'rotate(90deg)',
-    transition: 'transform 1s ease-out'
+    right: {
+      fontSize: '2rem',
+      transform: 'rotate(90deg)',
+      transition: 'transform 0.9s ease-out'
+    },
+    left: {
+      fontSize: '2rem',
+      transform: 'rotate(0deg)',
+      transition: 'transform 0.9s ease-out'
+    }
+
   },
   progress: {
     height: '1.5rem'
@@ -51,19 +59,20 @@ class CardSlide extends Component {
             <div className='d-inline-block slide-card rounded'>
               <p className='text-center question p-3'>Q: {question}</p>
               <i className="fas fa-arrow-circle-right arrow"
-                style={showAnswer ? style.arrow : {fontSize: '2rem'}}
+                style={showAnswer ? style.arrow.right : style.arrow.left}
                 onClick={this.toggleShowAnswer}>
               </i>
               <span className='seeAnswer'> See Answer</span>
-              <div className = {showAnswer ? 'd-block' : 'd-none'} style={{height: '50%'}}>
+              <div className = {showAnswer ? 'fold' : 'fold hide'}>
+                <h4 className='text-center text-white bg-dark m-0'>Answer</h4>
                 <p className={answerClass}>
-                  <span className='d-inline-block float-left'>Answer: </span> {answer}
+                  {answer}
                 </p>
               </div>
             </div>
           </div>
           <div className="progress" style={style.progress}>
-            <div className="progress-bar" role="progressbar" style={{width: `${progressWidth}%`}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{progressWidth}%</div>
+            <div className="progress-bar" role="progressbar" style={{width: `${progressWidth}%`}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{page + 1}/{cardCount}</div>
 
           </div>
         </div>
